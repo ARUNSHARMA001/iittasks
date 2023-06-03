@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>VIRTUAL LAB TASK</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: pink;
+    }
+  
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      position: relative;
+      left: 150px;
+    }
+  
+    .slider-container {
+      margin-bottom: 20px;
+      position: relative;
+      right: 500px;
+    }
+  
+    .table-container {
+      margin-bottom: 20px;
+      position: relative;
+      right: 500px;
+      top: 70px;
+    }
+  
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 10px solid black;
+    }
+  
+    th,
+    td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 10px solid black;
+      border-right: 10px solid black;
+    }
+  
+    th:last-child,
+    td:last-child {
+      border-right: 10px solid black;
+    }
+  
+    .graph-container {
+      margin-bottom: 20px;
+      position: fixed;
+      left: 930px;
+      top: 300px;
+    }
+  
+    #logPlot {
+      width: 500px;
+      height: 250px;
+    }
+  
+    .button1 {
+      background-color: blue;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      position: relative;
+      right: 500px;
+      top: 55px;
+    }
+  
+    .button2 {
+      background-color: blue;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      position: fixed;
+      left: 950px;
+      top: 255px;
+    }
+  
+    /* Media Queries */
+  
+    /* Mobile Devices */
+    @media only screen and (max-width: 600px) {
+      .container {
+        left: 0;
+      }
+  
+      .slider-container,
+      .table-container {
+        right: 0;
+        position: static;
+      }
+  
+      .graph-container {
+        left: 0;
+        top: 520px;
+      }
+  
+      .button1,
+      .button2 {
+        position: static;
+        margin-top: 20px;
+      }
+    }
+  
+    /* PCs and Larger Devices */
+    @media only screen and (min-width: 601px) {
+      .container {
+        left: 150px;
+      }
+  
+      .slider-container,
+      .table-container {
+        right: 500px;
+        position: relative;
+      }
+  
+      .graph-container {
+        left: 930px;
+        top: 300px;
+      }
+    }
+  </style>
+  
+</head>
+<body>
+  <div class="container">
+    <h2>VIRTUAL LAB TASK</h2>
+
+    <div class="slider-container">
+      <label for="xSlider">X:</label>
+      <input type="range" id="xSlider" min="1" max="100" step="0.1">
+      <span id="xValue">1</span>
+    </div>
+
+    <div class="slider-container">
+      <label for="ySlider">Y:</label>
+      <input type="range" id="ySlider" min="1" max="10" step="1">
+      <span id="yValue">1</span>
+    </div>
+
+    <button id="addButton"   class="button1">Add</button>
+
+    <div class="table-container">
+      <h3>Values Table</h3>
+      <table id="valuesTable">
+        <thead>
+          <tr>
+            <th>X</th>
+            <th>Y</th>
+            <th>log(X)</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+
+    <button id="plotButton"  class="button2">Plot</button>
+
+    <div class="graph-container">
+      <h3>Logarithm Plot</h3>
+      <div id="logPlot"></div>
+    </div>
+  </div>
+
+  <script>
+    const xSlider = document.getElementById('xSlider');
+    const ySlider = document.getElementById('ySlider');
+    const xValue = document.getElementById('xValue');
+    const yValue = document.getElementById('yValue');
+    const addButton = document.getElementById('addButton');
+    const valuesTable = document.getElementById('valuesTable').getElementsByTagName('tbody')[0];
+    const plotButton = document.getElementById('plotButton');
+    const logPlot = document.getElementById('logPlot');
+
+    addButton.addEventListener('click', () => {
+      const x = parseFloat(xSlider.value);
+      const y = parseInt(ySlider.value);
+
+      const newRow = valuesTable.insertRow();
+      const xCell = newRow.insertCell();
+      const yCell = newRow.insertCell();
+      const logCell = newRow.insertCell();
+
+      xCell.textContent = x;
+      yCell.textContent = y;
+      logCell.textContent = Math.log10(x).toFixed(2);
+
+      xSlider.value = 1;
+      ySlider.value = 1;
+      xValue.textContent = 1;
+      yValue.textContent = 1;
+    });
+
+    plotButton.addEventListener('click', () => {
+      const xValues = [];
+      const yValues = [];
+      const logValues = [];
+
+      const tableRows = valuesTable.rows;
+      for (let i = 0; i < tableRows.length; i++) {
+        const cells = tableRows[i].cells;
+        xValues.push(parseFloat(cells[0].textContent));
+        yValues.push(parseInt(cells[1].textContent));
+        logValues.push(Math.log10(parseFloat(cells[0].textContent)));
+      }
+
+      const data = [
+        {
+          x: yValues,
+          y: logValues,
+          mode: 'markers',
+          type: 'scatter'
+        }
+      ];
+
+      const layout = {
+        title: 'Logarithm Plot',
+        xaxis: {
+          title: 'Y'
+        },
+        yaxis: {
+          title: 'log(X)'
+        }
+      };
+
+      Plotly.newPlot(logPlot, data, layout);
+    });
+
+    xSlider.addEventListener('input', () => {
+      xValue.textContent = xSlider.value;
+    });
+
+    ySlider.addEventListener('input', () => {
+      yValue.textContent = ySlider.value;
+    });
+  </script>
+
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</body>
+</html>
