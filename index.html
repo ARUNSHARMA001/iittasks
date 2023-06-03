@@ -87,8 +87,10 @@
     /* Media Queries */
   
     /* Mobile Devices */
-    @media only screen and (max-width: 415px) {
+    @media only screen and (max-width: 768px) {
       .container {
+        max-width: 100%;
+        padding: 10px;
         left: 0;
       }
   
@@ -111,7 +113,7 @@
     }
   
     /* PCs and Larger Devices */
-    @media only screen and (min-width: 1294px) {
+    @media only screen and (min-width: 769px) {
       .container {
         left: 150px;
       }
@@ -138,6 +140,8 @@
       <label for="xSlider">X:</label>
       <input type="range" id="xSlider" min="1" max="100" step="0.1">
       <span id="xValue">1</span>
+   
+
     </div>
 
     <div class="slider-container">
