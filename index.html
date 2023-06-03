@@ -7,34 +7,27 @@
       font-family: Arial, sans-serif;
       background-color: pink;
     }
-  
+
     .container {
       max-width: 600px;
       margin: 0 auto;
       padding: 20px;
-      position: relative;
-      left: 150px;
     }
-  
+
     .slider-container {
       margin-bottom: 20px;
-      position: relative;
-      right: 500px;
     }
-  
+
     .table-container {
       margin-bottom: 20px;
-      position: relative;
-      right: 500px;
-      top: 70px;
     }
-  
+
     table {
       width: 100%;
       border-collapse: collapse;
       border: 10px solid black;
     }
-  
+
     th,
     td {
       padding: 8px;
@@ -42,24 +35,21 @@
       border-bottom: 10px solid black;
       border-right: 10px solid black;
     }
-  
+
     th:last-child,
     td:last-child {
       border-right: 10px solid black;
     }
-  
+
     .graph-container {
       margin-bottom: 20px;
-      position: fixed;
-      left: 930px;
-      top: 300px;
     }
-  
+
     #logPlot {
-      width: 500px;
+      width: 100%;
       height: 250px;
     }
-  
+
     .button1 {
       background-color: blue;
       color: white;
@@ -67,11 +57,9 @@
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      position: relative;
-      right: 500px;
-      top: 55px;
+      margin-bottom: 20px;
     }
-  
+
     .button2 {
       background-color: blue;
       color: white;
@@ -79,58 +67,45 @@
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      position: fixed;
-      left: 950px;
-      top: 255px;
     }
-  
+
     /* Media Queries */
-  
+
     /* Mobile Devices */
-    @media only screen and (max-width: 768px) {
+    @media only screen and (max-width: 767px) {
       .container {
-        max-width: 100%;
         padding: 10px;
-        left: 0;
       }
-  
-      .slider-container,
-      .table-container {
-        right: 0;
-        position: static;
-      }
-  
-      .graph-container {
-        left: 0;
-        top: 520px;
-      }
-  
+
       .button1,
       .button2 {
-        position: static;
         margin-top: 20px;
       }
+
+      table {
+        font-size: 12px;
+      }
+
+      th,
+      td {
+        padding: 6px;
+      }
     }
-  
-    /* PCs and Larger Devices */
-    @media only screen and (min-width: 769px) {
+
+    /* Tablets */
+    @media only screen and (min-width: 768px) and (max-width: 1023px) {
       .container {
-        left: 150px;
+        max-width: 700px;
       }
-  
-      .slider-container,
-      .table-container {
-        right: 500px;
-        position: relative;
-      }
-  
-      .graph-container {
-        left: 930px;
-        top: 300px;
+    }
+
+    /* PCs and Larger Devices */
+    @media only screen and (min-width: 1024px) {
+      .container {
+        max-width: 900px;
       }
     }
   </style>
-  
 </head>
 <body>
   <div class="container">
@@ -140,8 +115,6 @@
       <label for="xSlider">X:</label>
       <input type="range" id="xSlider" min="1" max="100" step="0.1">
       <span id="xValue">1</span>
-   
-
     </div>
 
     <div class="slider-container">
@@ -150,7 +123,7 @@
       <span id="yValue">1</span>
     </div>
 
-    <button id="addButton"   class="button1">Add</button>
+    <button id="addButton" class="button1">Add</button>
 
     <div class="table-container">
       <h3>Values Table</h3>
@@ -165,6 +138,7 @@
         <tbody>
         </tbody>
       </table>
+
     </div>
 
     <button id="plotButton"  class="button2">Plot</button>
